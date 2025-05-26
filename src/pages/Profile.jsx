@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAppContext } from "../hooks/useAppContext";
-import { axiosInstance }   from "../utils/axiosInstance";
+import { axiosInstance } from "../utils/axiosInstance";
 import { toast } from "react-toastify";
+
 const phone_regex = /^\+?[1-9][0-9]{7,14}$/;
 
 const validationSchema = yup.object().shape({
@@ -15,7 +16,8 @@ const validationSchema = yup.object().shape({
 });
 
 const Profile = () => {
-  const { user,token,updateuser } = useAppContext();
+  const { user, token, updateUser } = useAppContext();
+
   const {
     register,
     handleSubmit,
@@ -31,43 +33,54 @@ const Profile = () => {
   });
 
   const [isEditable, setIsEditable] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(user.profilePicture);
+  const [previewImage, setPreviewImage] = useState(user.profilePicture);
+  const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    reset({
+      fullName: user.fullName,
+      phoneNumber: user.phoneNumber,
+    });
+  }, [user, reset]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+      setImageFile(file);
+      setPreviewImage(URL.createObjectURL(file));
     }
   };
 
   const onSubmit = async (data) => {
-    console.log("Saved Data:",data)
     setIsSubmitting(true);
-
-
     try {
-      const response = await axiosInstance.patch(
-        "/auth/user",
-        {...data},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    if (response.status === 200) {
-      updateuser(response?.data?.user)
-      setIsEditable(false); 
-      toast.success("Profile updated successfully");
-    }
-  }catch (error) {
-      console.log(error)
+      const formData = new FormData();
+      formData.append("fullName", data.fullName);
+      formData.append("phoneNumber", data.phoneNumber);
+      if (imageFile) {
+        formData.append("profilePicture", imageFile);
+      }
+
+      const response = await axiosInstance.patch("/auth/user", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 200) {
+        updateUser(response.data.user);
+        toast.success("Profile updated successfully");
+        setIsEditable(false);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error updating profile");
     } finally {
       setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="p-4">
@@ -79,6 +92,7 @@ const Profile = () => {
           <h3 className="text-black">Overview</h3>
         </div>
       </div>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto w-full lg:w-[804px] p-4 bg-white mt-4 mb-8 shadow-lg rounded-lg"
@@ -86,7 +100,7 @@ const Profile = () => {
         <div className="flex flex-col lg:flex-row justify-between items-center">
           <div className="relative group">
             <img
-              src={selectedImage}
+              src={previewImage}
               alt="profile"
               className="h-[140px] w-[142px] rounded-full object-cover border"
             />
@@ -124,8 +138,6 @@ const Profile = () => {
           <label className="block text-black text-sm mb-1">Full Name</label>
           <input
             type="text"
-            placeholder={user.fullName}
-            defaultValue={user.fullName}
             {...register("fullName")}
             readOnly={!isEditable}
             className={`w-full h-[45px] px-3 rounded-lg bg-[#fbfbfb] text-black outline-none ${
@@ -145,7 +157,6 @@ const Profile = () => {
           <label className="block text-black text-sm mb-1">Email</label>
           <input
             type="email"
-            placeholder={user.email}
             value={user.email}
             readOnly
             className="w-full h-[45px] px-3 rounded-lg bg-[#fbfbfb] text-black border border-[#f6f6f6] outline-none"
@@ -153,13 +164,9 @@ const Profile = () => {
         </div>
 
         <div className="my-5">
-          <label className="block text-black text-sm mb-1">
-            Phone Number 1
-          </label>
+          <label className="block text-black text-sm mb-1">Phone Number</label>
           <input
             type="tel"
-            placeholder={user.phoneNumber}
-            defaultValue={user.phoneNumber}
             {...register("phoneNumber")}
             readOnly={!isEditable}
             className={`w-full h-[45px] px-3 rounded-lg bg-[#fbfbfb] text-black outline-none ${
@@ -182,14 +189,19 @@ const Profile = () => {
               disabled={isSubmitting}
               className="bg-black text-white py-2 px-4 rounded cursor-pointer"
             >
-              {isSubmitting ? <span className="loading loading-spinner loading-md"></span> : "Save Changes"}
+              {isSubmitting ? (
+                <span className="loading loading-spinner loading-md"></span>
+              ) : (
+                "Save Changes"
+              )}
             </button>
             <button
               type="button"
               onClick={() => {
                 setIsEditable(false);
-                reset();
-                setSelectedImage(user.profilePicture);
+                reset(); // restore form values
+                setPreviewImage(user.profilePicture);
+                setImageFile(null);
               }}
               className="bg-gray-500 text-white py-2 px-4 rounded cursor-pointer"
             >

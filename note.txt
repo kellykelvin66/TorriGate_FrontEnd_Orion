@@ -33,3 +33,6 @@ Login
 LOGIN page
 Appcontext
 dashboard layout
+
+ we use cloudinary to upload files into our serverfiles (ima, videos doc)--- cloudinar 
+oe d backend will be able to ave access to d files we make use Simpl-express middleware for file upload
