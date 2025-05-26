@@ -6,7 +6,7 @@ import { BounceLoader } from "react-spinners";
 import { MdCancel } from "react-icons/md";
 const VerifyEmail = () => {
   const { token } = useParams();
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState ("");
   const [status, setStatus] = useState("verifying");
   const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState("");
