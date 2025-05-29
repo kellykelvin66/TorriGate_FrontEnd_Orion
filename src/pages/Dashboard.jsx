@@ -3,8 +3,49 @@ import { IoTrendingUp } from "react-icons/io5";
 import { properties } from "../data";
 import AdminPropertyCard from "../components/AdminPropertyCard";
 import AdminPagination from "../components/AdminPagination";
-
+import suspenseLoader  from "../components/SuspenseLoader"
+import { axiosinstance } from "../utils/axiosInstance"
+import {useState,useEffect} from "react"
+import { useAppContext} from "../hooks/useAppContext"
+import SuspenseLoader from "../components/SuspenseLoader";
 const Dashboard = () => {
+  const [isloading, setisloading] =  useState(true)
+  const [page, setpage] =  useState (1)
+  const [totalpages, setTotalPages] =useState (0)
+  const [properties, setproperties] =({})
+  const [ total, setTotal] = useState(0)
+  const {token} = useAppContext()
+
+  const fecthProperties = async ()=>{
+
+    try {
+      setpage(data.currentPage);
+      const {data} = axiosinstance.get(`/property/landlord?page=${page}`,{headers:{Authorization: `Bearer ${token}`},});
+      setproperties(data.properties);
+      setpage(data.currentPage);
+      setTotalPages(data.tptalpages)
+      setTotal(data.total)
+      setisloading(false)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+    fecthProperties()
+  },[page])
+
+if(isloading){
+  return<SuspenseLoader />
+}
+if(!isloading && total === 0){
+  return (
+    <div>
+    <h1> No properties found</h1>
+      </div>
+  )
+}
+
   return (
     <section className="max-w-[1157px]">
       <div className=" pt-4">
@@ -23,7 +64,7 @@ const Dashboard = () => {
             Total Property
           </h2>
           <div className="w-full bg-white rounded-lg flex items-center h-[80px] pl-3.5">
-            <h1 className="font-semibold text-2xl">08</h1>
+            <h1 className="font-semibold text-2xl">{total}</h1>
           </div>
         </div>
         <div className="w-full lg:w-[568px]">
@@ -58,12 +99,15 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        {properties.slice(0, 5).map((property) => {
+        {properties.map((property) => {
           return <AdminPropertyCard key={property._id} {...property} />;
         })}
       </div>
       <div>
-        <AdminPagination />
+        {totalpages > 1 && (
+    <AdminPagination page ={page} totalPages={totalpages} setPage={setpage} />
+        )}
+       
       </div>
     </section>
   );

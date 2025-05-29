@@ -5,7 +5,41 @@ import AdminPropertyCard from "../components/AdminPropertyCard";
 import { Link } from "react-router-dom";
 import { MdOutlineAddHome } from "react-icons/md";
 import AdminPagination from "../components/AdminPagination";
+import { axiosinstance } from "../utils/axiosInstance"
+import {useState,useEffect} from "react"
+import { useAppContext} from "../hooks/useAppContext"
+import SuspenseLoader from "../components/SuspenseLoader";
+
 const AdminProperty = () => {
+  const [isloading, setisloading] =  useState(true)
+    const [page, setpage] =  useState (1)
+    const [totalpages, setTotalPages] =useState (0)
+    const [properties, setproperties] =({})
+    const [ total, setTotal] = useState(0)
+    const {token} = useAppContext()
+     const fecthProperties = async ()=>{
+   try {
+      setpage(data.properties);
+      const {data} = axiosinstance.get(`/property/landlord?page=${page}`,{headers:{Authorization: `Bearer ${token}`},});
+      setproperties(data.properties);
+      setpage(data.currentPage);
+      setTotalPages(data.tptalpages)
+      setTotal(data.total)
+      setisloading(false)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+    fecthProperties()
+  },[page])
+
+if(isloading){
+  return<SuspenseLoader />
+}
+if(!isloading && total === 0){
+}
   return (
     <div>
       <div className="flex items-center justify-between my-5">
@@ -73,12 +107,15 @@ const AdminProperty = () => {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        {properties.slice(0, 5).map((property) => {
+        {properties.map((property) => {
           return <AdminPropertyCard key={property._id} {...property} />;
         })}
       </div>
       <div>
-        <AdminPagination />
+        
+       {totalpages > 1 && (
+        <AdminPagination page ={page} totalPages={totalpages} setPage={setpage}/>
+       )}
       </div>
     </div>
   );

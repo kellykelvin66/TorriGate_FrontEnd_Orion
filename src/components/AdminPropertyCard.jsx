@@ -7,18 +7,16 @@ import { FaEllipsis } from "react-icons/fa6";
 
 const AdminPropertyCard = ({
   _id,
-  image,
+  images,
   title,
   kitchen,
-  bedrooms,
-  bathrooms,
-  tag,
-  price,
-  address,
-  status,
+  bedroom,
+  toilet,
+  location,
+  availability,
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [currentStatus, setCurrentStatus] = useState(status);
+  const [currentStatus, setCurrentStatus] = useState(availability);
 
   const toggleDropdown = () => {
     setShowDropdown((prev) => !prev);
@@ -39,7 +37,7 @@ const AdminPropertyCard = ({
     <div className="bg-white rounded-lg flex items-center justify-between p-2.5">
       <div className="flex items-center gap-2 relative">
         <img
-          src={image}
+          src={images[0]}
           alt={title}
           className="w-[129px] h-[102px] md:w-[80px] md:h-[74.55px] object-cover rounded-md"
         />
@@ -53,14 +51,14 @@ const AdminPropertyCard = ({
           <h1 className="font-medium text-[15px] text-[#0c0c0c]">{title}</h1>
           <p className="flex items-center gap-2 font-medium text-[#666] text-sm mb-2">
             <FaMapMarkerAlt className="hidden lg:block" />
-            {address}
+            {location}
           </p>
           <div className="flex items-center gap-[22px] text-[#363636] text-sm flex-wrap">
             <p className="flex items-center gap-2">
-              <LiaBedSolid /> {bedrooms} Beds
+              <LiaBedSolid /> {bedroom} Beds
             </p>
             <p className="flex items-center gap-2">
-              <MdOutlineBathtub /> {bathrooms} Baths
+              <MdOutlineBathtub /> {toilet} Baths
             </p>
             <p className="flex items-center gap-2">
               <TbToolsKitchen /> {kitchen} Kitchen
