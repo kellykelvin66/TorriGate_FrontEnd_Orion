@@ -5,7 +5,7 @@ import AdminPropertyCard from "../components/AdminPropertyCard";
 import { Link } from "react-router-dom";
 import { MdOutlineAddHome } from "react-icons/md";
 import AdminPagination from "../components/AdminPagination";
-import { axiosinstance } from "../utils/axiosInstance"
+import { axiosInstance } from "../utils/axiosInstance"
 import {useState,useEffect} from "react"
 import { useAppContext} from "../hooks/useAppContext"
 import SuspenseLoader from "../components/SuspenseLoader";
@@ -21,7 +21,7 @@ const AdminProperty = () => {
      const fecthProperties = async ()=>{
    try {
       setpage(data.properties);
-      const {data} = axiosinstance.get(`/property/landlord?page=${page}`,{headers:{Authorization: `Bearer ${token}`},});
+      const {data} = axiosInstance.get(`/property/landlord?page=${page}`,{headers:{Authorization: `Bearer ${token}`},});
       setproperties(data.properties);
       setpage(data.currentPage);
       setTotalPages(data.tptalpages)

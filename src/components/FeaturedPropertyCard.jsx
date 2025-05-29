@@ -5,14 +5,13 @@ import { TbToolsKitchen } from "react-icons/tb";
 import { Link } from "react-router-dom";
 const FeaturedPropertyCard = ({
   _id,
-  image,
+  images,
   title,
   kitchen,
-  bedrooms,
-  bathrooms,
-  tag,
+  bedroom,
+  toilet,
   price,
-  address,
+  location,
   status,
 }) => {
   return (
@@ -21,7 +20,7 @@ const FeaturedPropertyCard = ({
       className="w-full block lg:w-[325px] xl:w-[400px] h-[285px] mt-8"
     >
       <img
-        src={image}
+        src={images[0]}
         alt="image"
         className="w-full h-[203px] rounded-[10px] object-cover"
       />
@@ -36,13 +35,13 @@ const FeaturedPropertyCard = ({
           </h1>
         </div>
 
-        <p className="text-[#666666] text-[14px] font-[500]">{address}</p>
+        <p className="text-[#666666] text-[14px] font-[500]">{location}</p>
         <div className="flex items-center gap-[22px] text-[#363636] text-sm flex-wrap mt-2.5">
           <p className="flex items-center gap-2">
-            <LiaBedSolid /> {bedrooms} Beds
+            <LiaBedSolid /> {bedroom} Beds
           </p>
           <p className="flex items-center gap-2">
-            <MdOutlineBathtub /> {bathrooms} Baths
+            <MdOutlineBathtub /> {toilet} Baths
           </p>
           <p className="flex items-center gap-2">
             <TbToolsKitchen /> {kitchen} Kitchen

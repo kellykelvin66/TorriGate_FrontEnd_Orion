@@ -4,7 +4,7 @@ import { properties } from "../data";
 import AdminPropertyCard from "../components/AdminPropertyCard";
 import AdminPagination from "../components/AdminPagination";
 import suspenseLoader  from "../components/SuspenseLoader"
-import { axiosinstance } from "../utils/axiosInstance"
+import { axiosInstance } from "../utils/axiosInstance"
 import {useState,useEffect} from "react"
 import { useAppContext} from "../hooks/useAppContext"
 import SuspenseLoader from "../components/SuspenseLoader";
@@ -21,7 +21,7 @@ const Dashboard = () => {
 
     try {
       setpage(data.currentPage);
-      const {data} = axiosinstance.get(`/property/landlord?page=${page}`,{headers:{Authorization: `Bearer ${token}`},});
+      const {data} = axiosInstance.get(`/property/landlord?page=${page}`,{headers:{Authorization: `Bearer ${token}`},});
       setproperties(data.properties);
       setpage(data.currentPage);
       setTotalPages(data.tptalpages)
