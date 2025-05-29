@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { IoTrendingUp } from "react-icons/io5";
 import { properties } from "../data";
 import AdminPropertyCard from "../components/AdminPropertyCard";
@@ -8,6 +8,7 @@ import { axiosinstance } from "../utils/axiosInstance"
 import {useState,useEffect} from "react"
 import { useAppContext} from "../hooks/useAppContext"
 import SuspenseLoader from "../components/SuspenseLoader";
+import EmptyLandlord from "../component/EmptyLandlord";
 const Dashboard = () => {
   const [isloading, setisloading] =  useState(true)
   const [page, setpage] =  useState (1)
@@ -40,9 +41,7 @@ if(isloading){
 }
 if(!isloading && total === 0){
   return (
-    <div>
-    <h1> No properties found</h1>
-      </div>
+    <EmptyLandlord />
   )
 }
 

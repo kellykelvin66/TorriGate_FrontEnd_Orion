@@ -9,6 +9,7 @@ import { axiosinstance } from "../utils/axiosInstance"
 import {useState,useEffect} from "react"
 import { useAppContext} from "../hooks/useAppContext"
 import SuspenseLoader from "../components/SuspenseLoader";
+import EmptyLandlord from "../component/EmptyLandlord";
 
 const AdminProperty = () => {
   const [isloading, setisloading] =  useState(true)
@@ -39,6 +40,9 @@ if(isloading){
   return<SuspenseLoader />
 }
 if(!isloading && total === 0){
+    return (
+      <EmptyLandlord />
+    )
 }
   return (
     <div>
