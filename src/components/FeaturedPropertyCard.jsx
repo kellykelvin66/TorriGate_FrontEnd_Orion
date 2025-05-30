@@ -3,6 +3,7 @@ import { MdOutlineBathtub } from "react-icons/md";
 import { LiaBedSolid } from "react-icons/lia";
 import { TbToolsKitchen } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import {formatPrice} from "../utils/priceFormatter";
 const FeaturedPropertyCard = ({
   _id,
   images,
@@ -16,7 +17,7 @@ const FeaturedPropertyCard = ({
 }) => {
   return (
     <Link
-      to={`/property/${_id}`}
+      // to={`/property/${_id}`}
       className="w-full block lg:w-[325px] xl:w-[400px] h-[285px] mt-8"
     >
       <img
@@ -30,7 +31,7 @@ const FeaturedPropertyCard = ({
             {title}
           </h2>
           <h1 className="font-[600] text-[20px] text-[#363636]">
-            {price}
+            {formatPrice(price)}
             <span className="font-medium text-[16px] ">/yr</span>
           </h1>
         </div>

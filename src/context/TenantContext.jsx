@@ -26,16 +26,17 @@ const TenantProvider = ({ children }) => {
             setisloading(false)
         } catch (error) {
             console.error("error");
-        }
-    };
-}
-    useEffect(() => {
-        if(token){
+        
+        }};
+        useEffect(() => {
+          if (token) {
             fetchProperties();
-        }
-       
-    }, [page]);
+          }
+        }, [page]);
+    
+    }
 
+  
 
     return <TenantContext.Provider value={{
         isloading,
