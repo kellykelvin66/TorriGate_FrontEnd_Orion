@@ -3,47 +3,45 @@ import { IoTrendingUp } from "react-icons/io5";
 import { properties } from "../data";
 import AdminPropertyCard from "../components/AdminPropertyCard";
 import AdminPagination from "../components/AdminPagination";
-import suspenseLoader  from "../components/SuspenseLoader"
-import { axiosInstance } from "../utils/axiosInstance"
-import {useState,useEffect} from "react"
-import { useAppContext} from "../hooks/useAppContext"
+import suspenseLoader from "../components/SuspenseLoader";
+import { axiosInstance } from "../utils/axiosInstance";
+import { useState, useEffect } from "react";
+import { useAppContext } from "../hooks/useAppContext";
 import SuspenseLoader from "../components/SuspenseLoader";
-import EmptyLandlord from "../component/EmptyLandlord";
+import EmptyLandlord from "../components/EmptyLandlord";
 const Dashboard = () => {
-  const [isloading, setisloading] =  useState(true)
-  const [page, setpage] =  useState (1)
-  const [totalpages, setTotalPages] =useState (0)
-  const [properties, setproperties] =({})
-  const [ total, setTotal] = useState(0)
-  const {token} = useAppContext()
+  const [isloading, setisloading] = useState(true);
+  const [page, setpage] = useState(1);
+  const [totalpages, setTotalPages] = useState(0);
+  const [properties, setproperties] = {};
+  const [total, setTotal] = useState(0);
+  const { token } = useAppContext();
 
-  const fecthProperties = async ()=>{
-
+  const fecthProperties = async () => {
     try {
       setpage(data.currentPage);
-      const {data} = axiosInstance.get(`/property/landlord?page=${page}`,{headers:{Authorization: `Bearer ${token}`},});
+      const { data } = axiosInstance.get(`/property/landlord?page=${page}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setproperties(data.properties);
       setpage(data.currentPage);
-      setTotalPages(data.tptalpages)
-      setTotal(data.total)
-      setisloading(false)
-
+      setTotalPages(data.tptalpages);
+      setTotal(data.total);
+      setisloading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  useEffect(()=>{
-    fecthProperties()
-  },[page])
+  };
+  useEffect(() => {
+    fecthProperties();
+  }, [page]);
 
-if(isloading){
-  return<SuspenseLoader />
-}
-if(!isloading && total === 0){
-  return (
-    <EmptyLandlord />
-  )
-}
+  if (isloading) {
+    return <SuspenseLoader />;
+  }
+  if (!isloading && total === 0) {
+    return <EmptyLandlord />;
+  }
 
   return (
     <section className="max-w-[1157px]">
@@ -104,9 +102,12 @@ if(!isloading && total === 0){
       </div>
       <div>
         {totalpages > 1 && (
-    <AdminPagination page ={page} totalPages={totalpages} setPage={setpage} />
+          <AdminPagination
+            page={page}
+            totalPages={totalpages}
+            setPage={setpage}
+          />
         )}
-       
       </div>
     </section>
   );

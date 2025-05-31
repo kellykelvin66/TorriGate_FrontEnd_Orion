@@ -1,6 +1,6 @@
 import React from "react";
-import img from "../assets/Frame.png";
 import { Link } from "react-router-dom";
+import Frame from "../assets/FrameZ.png";
 import { MdOutlineAddHome } from "react-icons/md";
 const EmptyLandlord = () => {
   return (
@@ -53,7 +53,7 @@ const EmptyLandlord = () => {
       </div>
       <div className="flex justify-center items-center h-[600px]">
         <div className="max-w-[356px]  p-2.5 text-center">
-          <img src={img} alt="empty state" className="block mx-auto" />
+          <img src={Frame} alt="empty state" className="block mx-auto" />
           <h1 className="font-medium text-xl my-2.5">
             Nothing here, List property to get started
           </h1>

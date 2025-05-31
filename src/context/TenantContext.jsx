@@ -18,12 +18,12 @@ const TenantProvider = ({ children }) => {
         try {
             const  {data} = await axiosInstance.get(`/property/?page=${page}`,{
                 headers:
-                 {Authorization: `Bearer ${token}`,}
+                 {Authorization: `Bearer ${token}`},
             })
             setproperties(data.properties);
             setpage(data.currentPage);
             setTotalPages(data.totalPages);
-            setisloading(false)
+            setisloading(false);
         } catch (error) {
             console.error("error");
         
