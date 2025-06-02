@@ -13,26 +13,35 @@ const Dashboard = () => {
   const [isloading, setisloading] = useState(true);
   const [page, setpage] = useState(1);
   const [totalpages, setTotalPages] = useState(0);
-  const [properties, setproperties] = {};
+  const [properties, setproperties] = useState([]);
   const [total, setTotal] = useState(0);
   const { token } = useAppContext();
 
   const fecthProperties = async () => {
     try {
-      setpage(data.currentPage);
-      const { data } = axiosInstance.get(`/property/landlord?page=${page}`, {
+      setisloading(true);
+      console.log("Token:", token);
+      const { data } = await axiosInstance.get(`/property/landlord?page=${page}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setproperties(data.properties);
-      setpage(data.currentPage);
-      setTotalPages(data.tptalpages);
+     
+      setTotalPages(data.totalpages);
       setTotal(data.total);
       setisloading(false);
     } catch (error) {
-      console.log(error);
+      if (error.response) {
+        console.log("Axios error response:", error.response);
+      } else if (error.request) {
+        console.log("Axios error request:", error.request);
+      } else {
+        console.log("Axios error message:", error.message);
+      }
+      setisloading(false);
     }
   };
   useEffect(() => {
+    
     fecthProperties();
   }, [page]);
 

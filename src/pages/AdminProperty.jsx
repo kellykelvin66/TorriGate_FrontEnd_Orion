@@ -14,7 +14,7 @@ const AdminProperty = () => {
   const [isloading, setisloading] = useState(true);
   const [page, setpage] = useState(1);
   const [totalpages, setTotalPages] = useState(0);
-  const [properties, setproperties] = {};
+  const [properties, setproperties] = ({});
   const [total, setTotal] = useState(0);
   const { token } = useAppContext();
   const fecthProperties = async () => {
