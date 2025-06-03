@@ -82,7 +82,7 @@ const DetailOfProperty = ({property}) => {
           {/* Facilities */}
           <div className="mt-3">
             <h3 className="font-medium mb-2 text-lg">Facilities</h3>
-            <div className="grid  lg:grid-cols-4 gap-x-4 gap-y-2 text-sm">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-2 text-sm">
               <div className="flex items-center gap-2.5">
                 <div className="bg-[#fbfbfb] h-[46px] w-[46px] rounded-lg border border-[#d9d9d9] flex items-center justify-center">
                   <FaCouch size={22} />
@@ -131,7 +131,7 @@ const DetailOfProperty = ({property}) => {
             House owner
           </h1>
 
-          <div className="flex justify-between items-end">
+          <div className="flex justify-between items-end flex-wrap">
             <div className="flex gap-2 items-center">
               <img
                 src={property.landlord.ProfilePicture}
@@ -140,7 +140,7 @@ const DetailOfProperty = ({property}) => {
               />
               <div>
                 <p className="font-medium">{property.landlord.fullName}</p>
-                <span className="bg-[#61C45321] text-[#61C453] p-[1.5px] rounded-xl">
+                <span className="bg-[#61C45321] text-[#61C453] p-[1.5px] px-2 rounded-xl">
                   Verified
                 </span>
               </div>
