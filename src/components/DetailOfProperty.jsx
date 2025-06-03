@@ -12,6 +12,7 @@ import {
   MdKeyboardArrowLeft,
   MdOutlineMailOutline,
 } from "react-icons/md";
+import { formatPrice } from "../utils/priceFormatter";
 
 const dummyImages = [
   "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG91c2V8ZW58MHx8MHx8fDA%3D",
@@ -22,9 +23,9 @@ const dummyImages = [
   "https://plus.unsplash.com/premium_photo-1661876449499-26de7959878f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGhvdXNlfGVufDB8fDB8fHww",
 ];
 
-const DetailOfProperty = () => {
+const DetailOfProperty = ({property}) => {
   const [current, setCurrent] = useState(0);
-  const [images, setImages] = useState([...dummyImages]);
+  const [images, setImages] = useState([...property.Images]);
 
   const nextSlide = () => setCurrent((prev) => (prev + 1) % images.length);
   const prevSlide = () =>
@@ -59,16 +60,16 @@ const DetailOfProperty = () => {
         <div>
           <div className="flex justify-between items-start">
             <h2 className="text-lg font-medium text-[#1d1d1d]">
-              Crystal Brogs residence
+              {property.title}
             </h2>
             <span className="text-[20px] font-semibold text-[#0c0c0c]">
-              $23.4M/yr
+             {formatPrice(property.price)}/{property.paymentPeriod}
             </span>
           </div>
           <p className="flex items-center text-[16px] text-[#666] mb-3">
-            <FaMapMarkerAlt className="mr-1" /> 22, mabodaje, lawn, Garage, ikd,
-            lagos
+            <FaMapMarkerAlt className="mr-1" /> {property.loaction}
           </p>
+          <p className="text-[16px] text-[#666]">{property.descripton}</p>
           <p className="text-[16px] text-[#666] mb-2">
             At Torii Gate, we believe finding your perfect home should be easy
             and exciting. Founded to transform the homebuying experience, we
@@ -90,7 +91,7 @@ const DetailOfProperty = () => {
                   <h1 className="text-[#666] text-sm font-medium">
                     Living Room
                   </h1>
-                  <span className="font-semibold text-lg">2</span>
+                  <span className="font-semibold text-lg">{property.livingRoom}</span>
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
@@ -99,7 +100,7 @@ const DetailOfProperty = () => {
                 </div>
                 <div>
                   <h1 className="text-[#666] text-sm font-medium">Bedrooms</h1>
-                  <span className="font-semibold text-lg">6</span>
+                  <span className="font-semibold text-lg">{property.bedroom}</span>
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
@@ -108,7 +109,7 @@ const DetailOfProperty = () => {
                 </div>
                 <div>
                   <h1 className="text-[#666] text-sm font-medium">Kitchen</h1>
-                  <span className="font-semibold text-lg">2</span>
+                  <span className="font-semibold text-lg">{property.kitchen}</span>
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
@@ -117,7 +118,7 @@ const DetailOfProperty = () => {
                 </div>
                 <div>
                   <h1 className="text-[#666] text-sm font-medium">Toilet</h1>
-                  <span className="font-semibold text-lg">8</span>
+                  <span className="font-semibold text-lg">{property.toilet}</span>
                 </div>
               </div>
             </div>
@@ -133,12 +134,12 @@ const DetailOfProperty = () => {
           <div className="flex justify-between items-end">
             <div className="flex gap-2 items-center">
               <img
-                src="https://randomuser.me/api/portraits/men/1.jpg"
+                src={property.landlord.ProfilePicture}
                 alt="owner"
                 className="w-[46px] h-[46px] rounded-lg object-cover"
               />
               <div>
-                <p className="font-medium">Ahmed Farid</p>
+                <p className="font-medium">{property.landlord.fullName}</p>
                 <span className="bg-[#61C45321] text-[#61C453] p-[1.5px] rounded-xl">
                   Verified
                 </span>
@@ -146,11 +147,11 @@ const DetailOfProperty = () => {
             </div>
             <div className=" border-[5px] border-[#e5e5e5] flex justify-center items-center gap-3 rounded-lg">
               <FaPhoneAlt />
-              <p>+2349025730919</p>
+              <p>{property.landlord.phoneNumber}</p>
             </div>
             <div className="bg-[#fbfbfb] border-[5px] border-[#e5e5e5] flex justify-center items-center gap-3 rounded-lg">
               <MdOutlineMailOutline />
-              <p>olarifad123@gmail.com</p>
+              <p>{property.lanldord.email}</p>
             </div>
           </div>
         </div>

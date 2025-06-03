@@ -34,7 +34,7 @@ const SearchForm = () => {
           </label>
           <select id="type" 
           value={Housetype}
-          onChange={(e) => setHouseType(e.target.value)}
+          onChange={(e) => setHouseType(e.target.value)}g
           className="select w-full bg-[#f6f6f6]">
             <option value="">type</option>
             <option value="flat">Flat</option>
