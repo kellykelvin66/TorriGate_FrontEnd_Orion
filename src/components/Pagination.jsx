@@ -1,9 +1,9 @@
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
-import useTenantContext from "../hooks/useTenantContext";
-const Pagination = () =>{
-  const {page, setpage, totalPage, total, properties} = useTenantContext();
-}
- 
+import { useTenantContext } from "../hooks/useTenantContext";
+
+const Pagination = () => {
+  const { page, setPage, totalPage, properties, total } = useTenantContext();
+
   return (
     <div className="flex items-center justify-between py-4 text-sm text-gray-600 layout">
       <span>
@@ -16,7 +16,7 @@ const Pagination = () =>{
         </span>
         <button
           className="px-2 py-1 border rounded disabled:opacity-30"
-          onClick={() => setpage(page = 1)}
+          onClick={() => setPage(page - 1)}
           disabled={page === 1}
         >
           <MdArrowLeft size={22} />
@@ -24,7 +24,7 @@ const Pagination = () =>{
 
         <button
           className="px-2 py-1 border rounded disabled:opacity-30"
-          onClick={() => setpage(page + 1)}
+          onClick={() => setPage(page + 1)}
           disabled={page === totalPage}
         >
           <MdArrowRight size={22} />
@@ -32,6 +32,6 @@ const Pagination = () =>{
       </div>
     </div>
   );
-
+};
 
 export default Pagination;
