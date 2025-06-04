@@ -1,54 +1,56 @@
-import React, { Component } from "react";
+import React from "react";
 import { IoTrendingUp } from "react-icons/io5";
 import { properties } from "../data";
 import AdminPropertyCard from "../components/AdminPropertyCard";
 import AdminPagination from "../components/AdminPagination";
-import suspenseLoader from "../components/SuspenseLoader";
+import SuspenseLoader from "../components/SuspenseLoader";
 import { axiosInstance } from "../utils/axiosInstance";
 import { useState, useEffect } from "react";
 import { useAppContext } from "../hooks/useAppContext";
-import SuspenseLoader from "../components/SuspenseLoader";
 import EmptyLandlord from "../components/EmptyLandlord";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
-  const [isloading, setisloading] = useState(true);
-  const [page, setpage] = useState(1);
-  const [totalpages, setTotalPages] = useState(0);
-  const [properties, setproperties] = useState([]);
+  const redirect = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [properties, setProperties] = useState([]);
   const [total, setTotal] = useState(0);
   const { token } = useAppContext();
 
-  const fecthProperties = async () => {
+  const fetchProperties = async () => {
+    // setIsLoading(true);
     try {
-      setisloading(true);
-      console.log("Token:", token);
-      const { data } = await axiosInstance.get(`/property/landlord?page=${page}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setproperties(data.properties);
-     
-      setTotalPages(data.totalpages);
+      const response = await axiosInstance.get(
+        `/property/landlord?page=${page}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const { data } = response;
+      setProperties(data.properties);
+      setPage(data.currentPage);
+      setTotalPages(data.totalPages);
       setTotal(data.total);
-      setisloading(false);
-    } catch (error) {
-      if (error.response) {
-        console.log("Axios error response:", error.response);
-      } else if (error.request) {
-        console.log("Axios error request:", error.request);
-      } else {
-        console.log("Axios error message:", error.message);
+      setIsLoading(false);
+      if (response.status === 401) {
+        toast.warning("session expired");
+        redirect("/login");
       }
-      setisloading(false);
+    } catch (error) {
+      console.log(error);
     }
   };
+
   useEffect(() => {
-    
-    fecthProperties();
+    fetchProperties();
   }, [page]);
 
-  if (isloading) {
+  if (isLoading) {
     return <SuspenseLoader />;
   }
-  if (!isloading && total === 0) {
+  if (!isLoading && total === 0) {
     return <EmptyLandlord />;
   }
 
@@ -110,11 +112,11 @@ const Dashboard = () => {
         })}
       </div>
       <div>
-        {totalpages > 1 && (
+        {totalPages > 1 && (
           <AdminPagination
             page={page}
-            totalPages={totalpages}
-            setPage={setpage}
+            totalPages={totalPages}
+            setPage={setPage}
           />
         )}
       </div>

@@ -43,7 +43,7 @@ const Nav = ({ bg }) => {
                 className="menu menu-sm dropdown-content bg-black rounded-box z-1 mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/home">Home</Link>
                 </li>
                 <li>
                   <Link to="/about">About</Link>
@@ -80,7 +80,8 @@ const Nav = ({ bg }) => {
             )}
           </div>
           <Link to="/" className="">
-  []          <div className="flex gap-2 items-center">
+            []{" "}
+            <div className="flex gap-2 items-center">
               <img src={logo} alt="logo" className="ml-2 lg:ml-0" />
               <div>
                 <h2 className="font-medium text-lg hidden lg:block">
@@ -96,7 +97,7 @@ const Nav = ({ bg }) => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li>
               <Link to="/about">About</Link>

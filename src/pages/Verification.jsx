@@ -1,10 +1,11 @@
 import React from "react";
 import AuthWrapper from "../components/layout/AuthWrapper";
 import { Link } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
-
+import { FaArrowLeft } from "react-icons/fa6";
+//test@test.com
 const Verification = () => {
   const email = localStorage.getItem("email");
+
   const maskEmail = (email) => {
     const [start, domain] = email.split("@");
     if (start.length <= 2) {
@@ -12,6 +13,7 @@ const Verification = () => {
     }
     return `${start.slice(0, 2)}...@${domain}`;
   };
+
   return (
     <AuthWrapper>
       <div className="bg-white py-[29px] px-[26px] rounded-lg shadow-lg w-full lg:w-[453px]">
@@ -22,11 +24,11 @@ const Verification = () => {
         </Link>
         <div className="max-w-[332px] mt-4">
           <h1 className="text-2xl lg:text-[30px] font-semibold">
-            Verification is required to proceed
+            Verification required to proceed
           </h1>
           <p className="text-[#666] text-[16px] font-normal">
-            A verification instruction has been sent to your{" "}
-            <span className="font-semibold ml-1">{maskEmail(email)}</span>
+            A verification instruction has been sent to your mail
+            <span className="font-semibold ml-1"> {maskEmail(email)} </span>
           </p>
         </div>
         <button className="btn w-full mt-4 font-semibold">Go to Mail</button>
